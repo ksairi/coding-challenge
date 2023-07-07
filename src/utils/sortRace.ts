@@ -1,14 +1,13 @@
 import { Race } from "../types";
-
-const NOT_CALCULATED_YET = "not calculated yet";
+import { RacerState } from "./enums";
 
 const sortRace = (race: Race) => {
   const racers = Object.values(race);
   const notCalculatedYet = racers.filter(
-    (racer) => racer.likelihoodOfWinning === NOT_CALCULATED_YET
+    (racer) => racer.likelihoodOfWinning === RacerState.IN_PROGRESS
   );
   const calculatedAlready = racers.filter(
-    (racer) => racer.likelihoodOfWinning !== NOT_CALCULATED_YET
+    (racer) => racer.likelihoodOfWinning !== RacerState.IN_PROGRESS
   );
 
   const calculatedAlreadySorted = calculatedAlready.sort((a, b) => {
@@ -31,4 +30,4 @@ const sortRace = (race: Race) => {
   return raceSorted;
 };
 
-export { sortRace, NOT_CALCULATED_YET };
+export { sortRace };

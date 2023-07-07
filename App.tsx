@@ -7,18 +7,24 @@ import {
   Text,
 } from "react-native";
 import { useFetchData } from "./src/hooks";
-import { useStartRace } from "./src/hooks/useStartRace";
+import { RaceState, useStartRace } from "./src/hooks/useStartRace";
 import { Race } from "./src/components/race";
 const DATA_URL =
   "https://ba6gijdps7.execute-api.us-east-1.amazonaws.com/racers";
 export default function App() {
-  const { isLoading, fetchData, data } = useFetchData(DATA_URL);
-  const { race, starRace, raceState } = useStartRace(data);
+  const { isLoading, fetchData, data, resetData } = useFetchData(DATA_URL);
+  const { race, starRace, raceState, resetRace } = useStartRace(data);
   const [hasRaceStarted, setHasRaceStarted] = useState(false);
 
   const onStartRace = () => {
     setHasRaceStarted(true);
     starRace();
+  };
+
+  const onReset = () => {
+    resetRace();
+    resetData();
+    setHasRaceStarted(false);
   };
 
   if (isLoading) {
@@ -30,15 +36,18 @@ export default function App() {
   }
   return (
     <View style={styles.container}>
-      {!data.length && <Button onPress={fetchData} title="Fetch Data" />}
-      {!!data.length && !hasRaceStarted && (
+      {!data.length ? <Button onPress={fetchData} title="Fetch Data" /> : null}
+      {data.length && !hasRaceStarted ? (
         <Button onPress={onStartRace} title="Start Race" />
-      )}
-      {!!data.length && (
+      ) : null}
+      {data.length ? (
         <View style={styles.raceContainer}>
           <Race raceState={raceState}>{race}</Race>
         </View>
-      )}
+      ) : null}
+      {raceState === RaceState.ALL_CALCULATED ? (
+        <Button onPress={onReset} title="Reset" />
+      ) : null}
     </View>
   );
 }

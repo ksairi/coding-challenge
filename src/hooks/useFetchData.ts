@@ -17,7 +17,11 @@ const useFetchData = (url: string) => {
     }
   };
 
-  return { isLoading, fetchData, data };
+  const resetData = () => {
+    setData([]);
+  };
+
+  return { isLoading, fetchData, data, resetData };
 };
 
 export { useFetchData };
