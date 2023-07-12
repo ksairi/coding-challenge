@@ -11,6 +11,7 @@ const useFetchData = (url: string) => {
       const jsonResult = await fetchResult.json();
       setData(jsonResult.racers);
     } catch (e) {
+      // Q: If there is an error, the UI will just revert to showing `Fetch Data`
       console.error(e);
     } finally {
       setIsLoading(false);

@@ -1,4 +1,5 @@
 enum RacerState {
+  // Q: Using this pattern, should there not be a `Calculated` state?
   NOT_CALCULATED_YET = "not calculated yet",
   IN_PROGRESS = "In progress",
 }
